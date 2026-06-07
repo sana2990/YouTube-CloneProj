@@ -13,6 +13,8 @@ import {
   likeVideo,
   dislikeVideo,
   getMyVideos,
+  updateVideo,
+  deleteVideo,
 } from "../controllers/videoController.js";
 
 router.get("/", getAllVideos);
@@ -47,6 +49,14 @@ router.post(
   "/",
   protect,
   createVideo
+);
+
+router.put("/:id", protect, updateVideo);
+
+router.delete(
+  "/:id",
+  protect,
+  deleteVideo
 );
 
 router.get(
