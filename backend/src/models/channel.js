@@ -22,11 +22,12 @@ const channelSchema = new mongoose.Schema(
       ref: "User",
       required: true
     },
-
-    subscribers: {
-      type: Number,
-      default: 0
-    }
+subscribers: [
+  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+],
   },
   {
     timestamps: true

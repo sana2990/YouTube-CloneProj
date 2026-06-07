@@ -153,3 +153,166 @@ export const getVideosByCategory = async (req, res) => {
       });
     }
   };
+
+export const likeVideo = async (
+  req,
+  res
+) => {
+  try {
+    const video =
+      await Video.findById(
+        req.params.id
+      );
+
+    if (!video)
+      return res.status(404).json({
+        message:
+          "Video not found",
+      });
+
+    video.dislikes =
+      video.dislikes.filter(
+        (id) =>
+          id.toString() !==
+          req.user._id.toString()
+      );
+
+    if (
+      !video.likes.includes(
+        req.user._id
+      )
+    ) {
+      video.likes.push(
+        req.user._id
+      );
+    }
+
+    await video.save();
+
+    res.json({
+      likes:
+        video.likes.length,
+      dislikes:
+        video.dislikes.length,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+export const dislikeVideo =
+  async (req, res) => {
+    try {
+      const video =
+        await Video.findById(
+          req.params.id
+        );
+
+      if (!video)
+        return res.status(404).json({
+          message:
+            "Video not found",
+        });
+
+      video.likes =
+        video.likes.filter(
+          (id) =>
+            id.toString() !==
+            req.user._id.toString()
+        );
+
+      if (
+        !video.dislikes.includes(
+          req.user._id
+        )
+      ) {
+        video.dislikes.push(
+          req.user._id
+        );
+      }
+
+      await video.save();
+
+      res.json({
+        likes:
+          video.likes.length,
+        dislikes:
+          video.dislikes.length,
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error.message,
+      });
+    }
+  };
+
+  export const getMyVideos = async (req, res) => {
+    try {
+      const videos =
+        await Video.find({
+          uploader: req.user._id,
+        });
+
+      res.json(videos);
+    } catch (error) {
+      res.status(500).json({
+        message: error.message,
+      });
+    }
+  };
+
+  export const updateVideo =
+  async (req, res) => {
+    try {
+      const video =
+        await Video.findById(
+          req.params.id
+        );
+
+      if (!video)
+        return res.status(404).json({
+          message:
+            "Video not found",
+        });
+
+      if (
+        video.uploader.toString() !==
+        req.user._id.toString()
+      ) {
+        return res.status(403).json({
+          message:
+            "Not authorized",
+        });
+      }
+
+      video.title =
+        req.body.title ||
+        video.title;
+
+      video.description =
+        req.body.description ||
+        video.description;
+
+      video.thumbnailUrl =
+        req.body.thumbnailUrl ||
+        video.thumbnailUrl;
+
+      video.videoUrl =
+        req.body.videoUrl ||
+        video.videoUrl;
+
+      video.category =
+        req.body.category ||
+        video.category;
+
+      await video.save();
+
+      res.json(video);
+    } catch (error) {
+      res.status(500).json({
+        message: error.message,
+      });
+    }
+  };

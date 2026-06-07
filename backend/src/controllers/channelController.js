@@ -150,3 +150,68 @@ export const deleteChannel = async (
       "Channel deleted successfully",
   });
 };
+
+export const subscribeChannel =
+  async (req, res) => {
+    try {
+      const channel =
+        await Channel.findById(
+          req.params.id
+        );
+
+      if (!channel)
+        return res.status(404).json({
+          message:
+            "Channel not found",
+        });
+
+      if (
+        !channel.subscribers.includes(
+          req.user._id
+        )
+      ) {
+        channel.subscribers.push(
+          req.user._id
+        );
+      }
+
+      await channel.save();
+
+      res.json({
+        message:
+          "Subscribed",
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error.message,
+      });
+    }
+  };
+
+  export const unsubscribeChannel =
+  async (req, res) => {
+    try {
+      const channel =
+        await Channel.findById(
+          req.params.id
+        );
+
+      channel.subscribers =
+        channel.subscribers.filter(
+          (id) =>
+            id.toString() !==
+            req.user._id.toString()
+        );
+
+      await channel.save();
+
+      res.json({
+        message:
+          "Unsubscribed",
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error.message,
+      });
+    }
+  };

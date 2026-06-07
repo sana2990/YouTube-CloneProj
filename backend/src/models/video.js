@@ -24,7 +24,7 @@ const videoSchema = new mongoose.Schema(
 
     category: {
       type: String,
-      required: true,
+      default: "General",
     },
 
     channel: {
@@ -44,15 +44,19 @@ const videoSchema = new mongoose.Schema(
       default: 0,
     },
 
-    likes: {
-      type: Number,
-      default: 0,
-    },
+    likes: [
+  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+],
 
-    dislikes: {
-      type: Number,
-      default: 0,
-    },
+dislikes: [
+  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+],
   },
   {
     timestamps: true,

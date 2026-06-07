@@ -1,39 +1,57 @@
 import express from "express";
-
 import protect from "../middleware/authMiddleware.js";
+
+const router = express.Router();
 
 import {
   createVideo,
   getAllVideos,
   getVideoById,
   addView,
-  //deleteVideo,
-  //likeVideo,
-  //dislikeVideo,
+  searchVideos,
+  getVideosByCategory,
+  likeVideo,
+  dislikeVideo,
+  getMyVideos,
 } from "../controllers/videoController.js";
-
-const router = express.Router();
 
 router.get("/", getAllVideos);
 
-router.get("/:id", getVideoById);
+router.get("/my-videos", protect, getMyVideos);
 
-router.post("/", protect, createVideo);
-
-router.put( "/view/:id", addView);
-
-router.get(
-  "/search",
-  searchVideos
-);
+router.get("/search", searchVideos);
 
 router.get(
   "/category/:category",
   getVideosByCategory
 );
 
-//router.post("/:id/dislike", protect, dislikeVideo);
+router.put(
+  "/view/:id",
+  addView
+);
 
-//router.post("/", protect, createVideo);
+router.put(
+  "/:id/like",
+  protect,
+  likeVideo
+);
+
+router.put(
+  "/:id/dislike",
+  protect,
+  dislikeVideo
+);
+
+router.post(
+  "/",
+  protect,
+  createVideo
+);
+
+router.get(
+  "/:id",
+  getVideoById
+);
 
 export default router;
