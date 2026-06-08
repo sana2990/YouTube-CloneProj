@@ -13,6 +13,8 @@ function HomePage() {
 
   const [search, setSearch] = useState("");
 
+  const [category, setCategory] = useState("");
+
   useEffect(() => {
     const fetchVideos =
       async () => {
@@ -32,7 +34,8 @@ function HomePage() {
   return (
     <>
          <Navbar search={search} setSearch={setSearch} />
-         <FilterBar />
+         
+         <FilterBar category={category} setCategory={setCategory} />
 
       <div
         style={{
@@ -48,11 +51,25 @@ function HomePage() {
           }}
         >
          {videos
-  .filter((video) =>
-    video.title
-      .toLowerCase()
-      .includes(search.toLowerCase())
-  )
+  .filter((video) => {
+    const matchesSearch =
+      video.title
+        .toLowerCase()
+        .includes(
+          search.toLowerCase()
+        );
+
+    const matchesCategory =
+      category === ""
+        ? true
+        : video.category ===
+          category;
+
+    return (
+      matchesSearch &&
+      matchesCategory
+    );
+  })
   .map((video) => (
     <VideoCard
       key={video._id}

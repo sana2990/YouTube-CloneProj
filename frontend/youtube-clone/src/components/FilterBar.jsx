@@ -1,4 +1,7 @@
-function FilterBar() {
+function FilterBar({
+  category,
+  setCategory,
+}) {
   const categories = [
     "All",
     "React",
@@ -18,7 +21,14 @@ function FilterBar() {
       }}
     >
       {categories.map((cat) => (
-        <button key={cat}>
+        <button
+          key={cat}
+          onClick={() =>
+            setCategory(
+              cat === "All" ? "" : cat
+            )
+          }
+        >
           {cat}
         </button>
       ))}
