@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import VideoPage from './pages/VideoPage';
 import './App.css';
+import ChannelPage from './pages/ChannelPage';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -21,6 +22,8 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
 
         <Route path="/video/:id" element={<VideoPage />} />
+
+        <Route path="/channel" element={<ChannelPage />} />
   
       </Routes>
     </BrowserRouter>

@@ -49,6 +49,10 @@ function Navbar() {
               Welcome {user.username}
             </span>
 
+            <button onClick={() => navigate("/channel")}>
+                My Channel
+            </button>
+
             <button onClick={handleLogout}>
               Logout
             </button>
@@ -58,6 +62,7 @@ function Navbar() {
             Sign In
           </button>
         )}
+        
       </div>
     </nav>
   );
