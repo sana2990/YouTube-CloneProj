@@ -1,29 +1,23 @@
 import axios from "axios";
 
-const API_URL =
-  "http://localhost:5000/api/videos";
+const API = "http://localhost:5000/api/videos";
 
+// GET ALL VIDEOS
 export const getVideos = async () => {
-  const response =
-    await axios.get(API_URL);
-
-  return response.data;
+  const res = await axios.get(API);
+  return res.data;
 };
 
+// GET SINGLE VIDEO (FIX THIS ERROR)
 export const getVideoById = async (id) => {
-  const response = await axios.get(
-    `${API_URL}/${id}`
-  );
-
-  return response.data;
+  const res = await axios.get(`${API}/${id}`);
+  return res.data;
 };
 
-export const likeVideo = async (
-  id,
-  token
-) => {
-  const response = await axios.put(
-    `http://localhost:5000/api/videos/${id}/like`,
+// LIKE VIDEO
+export const likeVideo = async (videoId, token) => {
+  const res = await axios.put(
+    `${API}/${videoId}/like`,
     {},
     {
       headers: {
@@ -32,15 +26,13 @@ export const likeVideo = async (
     }
   );
 
-  return response.data;
+  return res.data;
 };
 
-export const dislikeVideo = async (
-  id,
-  token
-) => {
-  const response = await axios.put(
-    `http://localhost:5000/api/videos/${id}/dislike`,
+// DISLIKE VIDEO
+export const dislikeVideo = async (videoId, token) => {
+  const res = await axios.put(
+    `${API}/${videoId}/dislike`,
     {},
     {
       headers: {
@@ -49,5 +41,5 @@ export const dislikeVideo = async (
     }
   );
 
-  return response.data;
+  return res.data;
 };

@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { getVideoById } from "../services/videoService";
+import CommentSection from "../components/CommentSection";
+import {likeVideo, dislikeVideo} from "../services/videoService";
 
 function VideoPage() {
   const { id } = useParams();
 
   const [video, setVideo] =
     useState(null);
+
+  const [videoData, setVideoData] = useState(video);
 
   useEffect(() => {
     const fetchVideo =
@@ -55,6 +59,32 @@ if (video.videoUrl.includes("watch?v=")) {
       <p>
         Views: {video.views}
       </p>
+
+      <div style={{ marginTop: "10px" }}>
+  <button
+    onClick={async () => {
+      const token = localStorage.getItem("token");
+      await likeVideo(video._id, token);
+      alert("Liked 👍");
+    }}
+  >
+    👍 Like
+  </button>
+
+  <button
+    onClick={async () => {
+      const token = localStorage.getItem("token");
+      await dislikeVideo(video._id, token);
+      alert("Disliked 👎");
+    }}
+    style={{ marginLeft: "10px" }}
+  >
+    👎 Dislike
+  </button>
+</div>
+
+      {console.log("CommentSection loaded")}
+      <CommentSection videoId={video._id} />
     </div>
   );
 }
