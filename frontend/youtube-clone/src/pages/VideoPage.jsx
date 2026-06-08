@@ -59,6 +59,11 @@ if (video.videoUrl.includes("watch?v=")) {
       <p>
         Views: {video.views}
       </p>
+        <h4>{video.title}</h4>
+
+<img src={video.thumbnailUrl} width="200" />
+
+<p>{video.views} views</p>
 
       <div style={{ marginTop: "10px" }}>
   <button

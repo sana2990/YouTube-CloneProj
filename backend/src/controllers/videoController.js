@@ -45,24 +45,28 @@ export const createVideo = async (
 };
 
 export const getAllVideos = async (req, res) => {
-    try {
-      const videos =
-        await Video.find()
-          .populate(
-            "channel",
-            "channelName"
-          )
-          .sort({
-            createdAt: -1
-          });
+  try {
+    const { search, category } = req.query;
 
-      res.json(videos);
-    } catch (error) {
-      res.status(500).json({
-        message: error.message
-      });
+    let filter = {};
+
+    // search by title
+    if (search) {
+      filter.title = { $regex: search, $options: "i" };
     }
-  };
+
+    // filter by category
+    if (category) {
+      filter.category = category;
+    }
+
+    const videos = await Video.find(filter).sort({ createdAt: -1 });
+
+    res.json(videos);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 export const getVideoById = async (req, res) => {
     try {

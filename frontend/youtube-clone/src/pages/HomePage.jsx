@@ -9,8 +9,9 @@ import { getVideos } from "../services/videoService";
 
 function HomePage() {
 
-  const [videos, setVideos] =
-    useState([]);
+  const [videos, setVideos] = useState([]);
+
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchVideos =
@@ -30,7 +31,7 @@ function HomePage() {
 
   return (
     <>
-         <Navbar />
+         <Navbar search={search} setSearch={setSearch} />
          <FilterBar />
 
       <div
@@ -46,12 +47,19 @@ function HomePage() {
             flexWrap: "wrap",
           }}
         >
-          {videos.map((video) => (
-            <VideoCard
-              key={video._id}
-              video={video}
-            />
-          ))}
+         {videos
+  .filter((video) =>
+    video.title
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  )
+  .map((video) => (
+    <VideoCard
+      key={video._id}
+      video={video}
+    />
+  ))}
+
         </div>
       </div>
     </>

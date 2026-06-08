@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Navbar() {
+function Navbar({ search, setSearch }) {
   const navigate = useNavigate();
-
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -17,9 +16,7 @@ function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-
     setUser(null);
-
     navigate("/login");
   };
 
@@ -36,10 +33,13 @@ function Navbar() {
         YouTube Clone
       </h2>
 
+      {/* SEARCH BAR */}
       <input
         type="text"
         placeholder="Search videos..."
-        style={{ width: "300px", padding: "6px" }}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        style={{ padding: "6px", width: "300px" }}
       />
 
       <div>
@@ -50,7 +50,7 @@ function Navbar() {
             </span>
 
             <button onClick={() => navigate("/channel")}>
-                My Channel
+              My Channel
             </button>
 
             <button onClick={handleLogout}>
@@ -62,7 +62,6 @@ function Navbar() {
             Sign In
           </button>
         )}
-        
       </div>
     </nav>
   );

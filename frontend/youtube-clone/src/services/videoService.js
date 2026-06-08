@@ -1,23 +1,26 @@
 import axios from "axios";
 
-const API = "http://localhost:5000/api/videos";
+const BASE_URL = "http://localhost:5000/api/videos";
 
 // GET ALL VIDEOS
-export const getVideos = async () => {
-  const res = await axios.get(API);
+export const getVideos = async (search = "", category = "") => {
+  const res = await axios.get(BASE_URL, {
+    params: { search, category },
+  });
+
   return res.data;
 };
 
-// GET SINGLE VIDEO (FIX THIS ERROR)
+// GET SINGLE VIDEO
 export const getVideoById = async (id) => {
-  const res = await axios.get(`${API}/${id}`);
+  const res = await axios.get(`${BASE_URL}/${id}`);
   return res.data;
 };
 
 // LIKE VIDEO
 export const likeVideo = async (videoId, token) => {
   const res = await axios.put(
-    `${API}/${videoId}/like`,
+    `${BASE_URL}/${videoId}/like`,
     {},
     {
       headers: {
@@ -32,7 +35,7 @@ export const likeVideo = async (videoId, token) => {
 // DISLIKE VIDEO
 export const dislikeVideo = async (videoId, token) => {
   const res = await axios.put(
-    `${API}/${videoId}/dislike`,
+    `${BASE_URL}/${videoId}/dislike`,
     {},
     {
       headers: {
