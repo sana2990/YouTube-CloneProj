@@ -3,7 +3,7 @@ import Sidebar from "../components/Sidebar";
 import { useEffect, useState } from "react";
 
 import VideoCard from "../components/VideoCard";
-
+import FilterBar from "../components/FilterBar";
 import { getVideos } from "../services/videoService";
 
 
@@ -31,6 +31,7 @@ function HomePage() {
   return (
     <>
          <Navbar />
+         <FilterBar />
 
       <div
         style={{

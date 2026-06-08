@@ -1,6 +1,15 @@
+import { useNavigate } from "react-router-dom";
+
 function VideoCard({ video }) {
+    const navigate =
+    useNavigate();
+
   return (
-    <div
+    <div onClick={() =>
+        navigate(
+          `/video/${video._id}`
+        )
+      }
       style={{
         width: "300px",
         margin: "15px",
